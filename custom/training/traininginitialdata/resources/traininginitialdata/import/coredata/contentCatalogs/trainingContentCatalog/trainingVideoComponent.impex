@@ -1,0 +1,16 @@
+# USE CTRL-SPACE for type-ahead support
+
+
+$contentCatalog=electronicsContentCatalog
+$contentCatalogName=Electronics Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+
+INSERT_UPDATE TrainingVideoComponent; $contentCV[unique=true]; uid[unique=true]; name; width; height; videoId; autoPlay; showControls; &componentRef
+									;;HomePageVideoCMSComponent; Our first CMS component; 1250; 500;DQB1R3AxCBg;false;true;HomePageVideoCMSComponent
+									
+									
+INSERT_UPDATE ContentSlot	;$contentCV[unique=true]; uid[unique=true];active; cmsComponents(&componentRef)
+					;;Section1Slot-Homepage;true;HomePageVideoCMSComponent
+									
+	

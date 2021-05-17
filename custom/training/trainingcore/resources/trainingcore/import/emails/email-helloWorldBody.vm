@@ -1,0 +1,11 @@
+
+<html>
+	<head> hi hello world </head>
+	
+	<body bgcolor="#ffffff">
+		<h1> Demo email template created {ctx.displayName}</h1>
+		
+		<p> demo paragraph content </p>
+	</body>
+
+</html>

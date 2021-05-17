@@ -1,0 +1,39 @@
+
+
+# USE CTRL-SPACE for type-ahead support
+
+$lang=en
+
+
+###################### conditions #########################################
+
+
+INSERT_UPDATE RuleConditionDefinitionCategory; 	id[unique=true]; name[lang=$lang]; priority		
+												;general; general;1111
+												
+												
+INSERT_UPDATE RuleConditionDefinition; id[unique=true]; name[lang=$lang];priority; breadcrumb[lang=$lang]; allowsChildren; translatorId; translatorParameters; categories(id)
+									 ;	y_qualifying_searchedWord; Searched Word;111; Searched Word; false; trainingQualifyingSearchWordConditionTranslator; ; general
+									 
+
+INSERT_UPDATE RuleConditionDefinitionParameter; definition(id)[unique=true]; id; name[lang=$lang]; description[lang=$lang]; priority; type; value; required[default=true]; validators	
+											  ;	y_qualifying_searchedWord; SearchedWord; Searched Word;Searched Word; 111; java.lang.Integer; ; true; 
+											  
+
+INSERT_UPDATE RuleConditionDefinitionRuleTypeMapping; definition(id)[unique=true]; ruleType(code)[unique=true]												
+								  				 	; y_qualifying_searchedWord; PromotionSourceRule
+								  				 	
+								  				 	
+								  				 	
+###################### Actions ############################################
+
+INSERT_UPDATE RuleActionDefinition; id[unique=true]; name[lang=$lang];priority; breadcrumb[lang=$lang]; translatorId; translatorParameters; categories(id)	
+									; searched_word_percentage_discount; percentage discount by word; 1250; Apply {value} by word;trainingQualifyingSearchWordConditionTranslator; actionId -> trainingRuleSearchedWordAddScoreAction; general					  				 	
+								  				 	
+								  				 	
+INSERT_UPDATE RuleActionDefinitionParameter; definition(id)[unique=true]; id; name[lang=$lang];description[lang=$lang]; priority; type; value; required[default=true]; validators								  				 	
+								  			; searched_word_percentage_discount; value;percentage discount value; percentage discount value;1000; java.lang.String; ; ; rulePercentageParameterValidator 	 	
+								  				 	
+								  				 	
+INSERT_UPDATE RuleActionDefinitionRuleTypeMapping; definition(id)[unique=true]; ruleType(code)[default=PromotionSourceRule][unique=true]						  				 	
+												 ; searched_word_percentage_discount;  
