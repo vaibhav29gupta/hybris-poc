@@ -521,6 +521,21 @@
 	
 	<bean id="helloWorldJob" class="com.hybris.training.core.job.HelloWorldJob" parent="abstractJobPerformable">	
 	</bean>
+	
+	<bean id="productListJobPerformable" class="com.hybris.training.core.job.ProductListJobPerformable" parent="abstractJobPerformable">
+	</bean>
+	
+	<bean id="trainingCartRemovalJob" class="com.hybris.training.core.job.TrainingCartRemovalJob" parent="abstractJobPerformable">
+	
+	</bean>
+	
+	<alias name="trainingProductDao" alias="productDao"/>
+	<bean id="trainingProductDao" class="com.hybris.training.core.suggestion.dao.impl.ProductListResultDaoImpl" parent="defaultProductDao">
+	</bean>
+	
+	<alias name="trainingOldCart" alias="trainingOldCart"/>
+	<bean id="trainingOldCart" class="com.hybris.training.core.suggestion.dao.impl.TrainingFindOldCartDaoImpl">
+	</bean>
 
 	<import resource="/trainingcore/processes/quote/quote-buyer-process-spring.xml"/>
 	<import resource="/trainingcore/processes/quote/quote-salesrep-process-spring.xml"/>
