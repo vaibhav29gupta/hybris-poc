@@ -144,6 +144,16 @@
         		</attribute>
         	</attributes>
         </itemtype>
+        
+                <itemtype code="TrainingOldCartRemovalJob" extends="OldCartRemovalCronJob" jaloclass="com.hybris.training.core.jalo.TrainingOldCartRemovalJob">
+        	<attributes>
+        		<attribute qualifier="hours" type="java.lang.Integer">
+        			<modifiers/>
+        			<persistence type="property"/>
+        		</attribute>
+        	</attributes>
+        </itemtype>
+        
 		</typegroup>
 		
 		<typegroup name="TrainingCMS">
