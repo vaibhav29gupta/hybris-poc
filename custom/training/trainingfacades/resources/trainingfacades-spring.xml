@@ -210,4 +210,22 @@
 		parent="variantCommerceSearchResultProductPopulator" >	
 	</bean>
 		
+	
+	<bean id="trainingProductCustomAttributesPopulator"
+		  class="com.hybris.training.facades.populators.TrainingProductCustomAttributesPopulator"
+		  parent="productPopulator">
+	</bean>
+
+	<alias name="defaultProductConverter" alias="productConverter"/>
+	<bean id="defaultProductConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+		<property name="populators">
+			<list>
+				<ref bean="trainingProductCustomAttributesPopulator"/>
+			</list>
+		</property>
+	</bean>
+		
+		
+		
 </beans>
