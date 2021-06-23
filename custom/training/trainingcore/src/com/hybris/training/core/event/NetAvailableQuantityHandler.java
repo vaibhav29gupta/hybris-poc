@@ -4,15 +4,15 @@
 package com.hybris.training.core.event;
 
 import de.hybris.platform.core.model.product.ProductModel;
-
-import com.sun.tools.javac.util.StringUtils;
-
+import de.hybris.platform.servicelayer.model.attribute.DynamicAttributeHandler;
+import org.drools.core.util.StringUtils;
 
 /**
  * @author vaibhavgupta03
  *
  */
-public class NetAvailableQuantityHandler
+public class NetAvailableQuantityHandler implements DynamicAttributeHandler<String, ProductModel>
+{
 {
 
 	@Override
