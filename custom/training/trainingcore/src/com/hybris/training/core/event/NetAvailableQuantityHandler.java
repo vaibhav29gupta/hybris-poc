@@ -5,6 +5,8 @@ package com.hybris.training.core.event;
 
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.model.attribute.DynamicAttributeHandler;
+
+
 import org.drools.core.util.StringUtils;
 
 /**
@@ -12,7 +14,6 @@ import org.drools.core.util.StringUtils;
  *
  */
 public class NetAvailableQuantityHandler implements DynamicAttributeHandler<String, ProductModel>
-{
 {
 
 	@Override
