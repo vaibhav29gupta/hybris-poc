@@ -25,6 +25,12 @@ hi
 					<div class="product-details">
 						<product:productPromotionSection product="${product}"/>
 						<ycommerce:testId code="productDetails_productNamePrice_label_${product.code}">
+						
+							Available quantity : ${product.availableQuantity}
+						    Reserved quantity : ${product.reservedQuantity}
+						    Net available quantity : ${product.netAvailableQuantity}
+						    
+						    <h1> ${product.name} </h1>
 							<product:productPricePanel product="${product}" />
 						</ycommerce:testId>
 						<div class="description">${ycommerce:sanitizeHTML(product.summary)}</div>

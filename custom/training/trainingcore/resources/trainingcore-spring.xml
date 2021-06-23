@@ -579,7 +579,10 @@
 	<bean id="trainingRuleSearchedWordAddScoreAction" class="com.hybris.training.core.promotion.action.executable.TrainingRuleSearchedWordAddScoreAction" 
 				abstract="true">
 	</bean>
-	
+
+
+	<bean id="netAvailableQuantityHandler" class="com.hybris.training.core.event.NetAvailableQuantityHandler">
+	</bean>
 	
 
 	<!-- CsTicket Stagnation action -->
