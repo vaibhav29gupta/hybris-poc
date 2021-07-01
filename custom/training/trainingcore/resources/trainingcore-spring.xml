@@ -584,6 +584,42 @@
 	<bean id="netAvailableQuantityHandler" class="com.hybris.training.core.event.NetAvailableQuantityHandler">
 	</bean>
 	
+	
+	<bean id="trainingInitDefaultsInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingInitDefaultsInterceptor"/>
+
+	<bean id="trainingInitDefaultsInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingInitDefaultsInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingPrepareInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingPrepareInterceptor"/>
+
+	<bean id="trainingPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingPrepareInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingLoadInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingLoadInterceptorDemo"/>
+
+	<bean id="trainingLoadInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingLoadInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingValidateInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingValidateInterceptor"/>
+
+	<bean id="trainingValidateInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingValidateInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingRemoveInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingRemoveInterceptor"/>
+
+	<bean id="trainingRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingRemoveInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+	
 
 	<!-- CsTicket Stagnation action -->
 	<alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>
