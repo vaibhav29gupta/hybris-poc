@@ -225,7 +225,26 @@
 			</list>
 		</property>
 	</bean>
-		
+	
+		<bean id="trainingProductStoreDetailsFacade" class="com.hybris.training.facades.storesImpl.TrainingProductStoreDetailsFacadeImpl" >
+		<property name="productDetailsService" ref="trainingProductDetailsService"/>
+		<property name="productStoreDetailsConverter" ref="productStoreDetails"/>
+
+	</bean>
+
+	<bean id="trainingProductStoreDetailsPopulator"
+		  class="com.hybris.training.facades.populators.TrainingProductStoreDetailsPopulator">
+	</bean>
+
+	<alias name="defaultProductStoreDetailsConverter" alias="productStoreDetails"/>
+	<bean id="defaultProductStoreDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.TrainingProductDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="trainingProductStoreDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>	
 		
 		
 </beans>

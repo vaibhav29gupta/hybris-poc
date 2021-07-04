@@ -532,6 +532,13 @@
 	<alias name="trainingProductDao" alias="productDao"/>
 	<bean id="trainingProductDao" class="com.hybris.training.core.suggestion.dao.impl.ProductListResultDaoImpl" parent="defaultProductDao">
 	</bean>
+
+	<alias name="trainingProductStoreDetailsDao" alias="productStoreDetailsDao"/>
+	<bean id="trainingProductStoreDetailsDao" class="com.hybris.training.core.daoImpl.TrainingProductStoreDetailsDaoImpl" >
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
+
+	<bean id="trainingProductDetailsService" class="com.hybris.training.core.ServicesImpl.TrainingProductDetailsServiceImpl"/>
 	
 	<alias name="trainingOldCart" alias="trainingOldCart"/>
 	<bean id="trainingOldCart" class="com.hybris.training.core.suggestion.dao.impl.TrainingFindOldCartDaoImpl">
@@ -580,11 +587,9 @@
 				abstract="true">
 	</bean>
 
-
 	<bean id="netAvailableQuantityHandler" class="com.hybris.training.core.event.NetAvailableQuantityHandler">
 	</bean>
-	
-	
+
 	<bean id="trainingInitDefaultsInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingInitDefaultsInterceptor"/>
 
 	<bean id="trainingInitDefaultsInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
@@ -619,7 +624,8 @@
 		<property name="interceptor" ref="trainingRemoveInterceptor"/>
 		<property name="typeCode" value="customer"/>
 	</bean>
-	
+
+
 
 	<!-- CsTicket Stagnation action -->
 	<alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>
