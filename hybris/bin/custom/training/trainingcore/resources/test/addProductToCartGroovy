@@ -1,0 +1,31 @@
+
+// adding product to cart
+
+import de.hybris.platform.servicelayer.search.SearchResult;
+
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
+import de.hybris.platform.core.model.order.CartModel;
+import de.hybris.platform.core.model.product.ProductModel;
+
+ cs = spring.getBean "cartService"
+ ms= spring.getBean "modelService"
+
+flexibleSearchService=spring.getBean "flexibleSearchService"
+def query =  "select {pk} from {cart} where {code}='00001001'"
+SearchResult<CartModel> result = flexibleSearchService.search(query);
+def query2 =  "select {pk} from {product} where {code}='1981415'"
+SearchResult<ProductModel> result2 = flexibleSearchService.search(query2);
+def query3 =  "select {pk} from {unit}"
+SearchResult<ProductModel> result3 = flexibleSearchService.search(query3);
+
+ CartModel s= result.getResult().get(0)
+	print s
+s.setDescription("This is my cart")
+
+ modelService.save(s)
+
+ println(result2.getResult().get(0))
+ println result3.getResult().get(0)
+println(cs.addToCart(cart,result2.getResult().get(0) , 2, result3.getResult().get(0)));
+
+

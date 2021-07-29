@@ -1,0 +1,33 @@
+// order process restart
+
+import de.hybris.platform.servicelayer.search.SearchResult;
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
+import de.hybris.platform.processengine.enums.ProcessState;
+import de.hybris.platform.ordersplitting.model.ConsignmentProcessModel;
+bs= spring.getBean "businessProcessService"
+
+def list=new ArrayList<String>();
+def code = 'MY210616-59929471'
+
+fs = spring.getBean "flexibleSearchService"
+
+String query = "select {​​​​​​​pk}​​​​​​​ from {​​​​​​​consignmentProcess}​​​​​​​ where {​​​​​​​code}​​​​​​​ like ?code"
+ FlexibleSearchQuery query1 = new FlexibleSearchQuery(query);
+ query1.addQueryParameter("code","%"+ code + "%");
+SearchResult<ConsignmentProcessModel> res= fs.search(query1);
+def consignmentProcess=res.result.get(0)
+def bp= "regeneratetaxinvoice"
+runconsprocess(consignmentProcess, bp);
+
+def runconsprocess(process,repairprocess) {​​​​​​​
+
+
+    def processState = process.getState()
+    print processState
+    if(processState != ProcessState.SUCCEEDED)
+     {​​​​​​​ bs.restartProcess(process,repairprocess)
+            println "the process is started"
+      }​​​​​​​
+      else
+      println "the process failed to execute"
+}​​​​​​​

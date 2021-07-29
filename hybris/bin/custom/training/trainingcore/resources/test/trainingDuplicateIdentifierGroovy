@@ -1,0 +1,44 @@
+
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery
+import de.hybris.platform.servicelayer.search.SearchResult
+import de.hybris.platform.cms2.model.contents.CMSItemModel
+import de.hybris.platform.catalog.DuplicatedItemIdentifier
+import java.util.Collection
+
+
+
+catalogName = 'vnContentCatalog'
+version = 'Online'
+     flexibleSearchService = spring.getBean 'flexibleSearchService'
+     modelService = spring.getBean 'modelService'
+     catalogVersionService = spring.getBean 'catalogVersionService'
+     catalogVersion = catalogVersionService.getCatalogVersion(catalogName, version)
+     Collection<DuplicatedItemIdentifier> duplicateIds = catalogVersionService.findDuplicatedIds(catalogVersion)
+     for (duplicateId in duplicateIds){
+	 println "hello"
+     uid = duplicateId.code
+     type = duplicateId.composedType
+     final FlexibleSearchQuery fsQuery = new FlexibleSearchQuery('SELECT {pk} FROM {$type} WHERE {catalogVersion} =?pk and  {uid} =?uid ');
+     fsQuery.addQueryParameter('pk', catalogVersion);
+     fsQuery.addQueryParameter('uid', uid);
+     final SearchResult<CMSItemModel> searchResult = flexibleSearchService.search(fsQuery);
+     final List<CMSItemModel> items = searchResult.getResult();
+     int leave = 1;
+     int removed = 0;
+     println uid + ' total count = '+ items.size()
+
+     if (!items.isEmpty() && items.size() > 1)
+     {
+       for(item in items){
+         if(leave > 1){
+           modelService.remove(item)
+           removed++
+         }
+         leave++
+      }
+     }
+    println 'removed count = '+ removed
+}
+
+
+
