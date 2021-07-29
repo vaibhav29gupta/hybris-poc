@@ -1,0 +1,101 @@
+
+import de.hybris.platform.util.mail.MailUtils
+import org.apache.commons.mail.*
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery
+import org.apache.poi.hssf.usermodel.HSSFSheet
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.hssf.usermodel.HSSFRow
+
+
+
+fss = spring.getBean('flexibleSearchService')
+query = 'SELECT {pm:PK} FROM {PaymentMode as pm JOIN BaseStore2PaymentMode as rel ON {pm:PK} = {rel:target} JOIN BaseStore AS bs ON {rel:source} = {bs:PK} } where {bs.uid} = ?siteId'
+query = new FlexibleSearchQuery(query)
+query.addQueryParameter('siteId', 'vn')
+paymentModes = fss.search(query).result
+
+
+
+email = MailUtils.getPreConfiguredEmail()
+email.setCharset('utf-8');
+email.setFrom('customerservice@shopmail.samsung.com', 'Customer Services Team')
+email.addTo('srikar.gs@partner.samsung.com')
+
+
+
+email.subject = 'VN Payment Mode Config Report'
+
+
+
+StringBuffer sb = new StringBuffer()
+sb.append('Hi All,\n\n')
+sb.append('Please see attached file for VN payment mode config data.\n\n')
+sb.append('Regards,\nSamsung Support')
+
+
+
+def date = new Date()
+excelFile = 'vn_paymentmode_'+date+'.xls'
+counter = 0
+HSSFWorkbook workbook = new HSSFWorkbook()
+HSSFSheet sheet = workbook.createSheet('Sheet1')
+HSSFRow header = sheet.createRow(counter);
+
+
+
+header.createCell(0).setCellValue('Payment Mode')
+header.createCell(1).setCellValue('Product Code')
+header.createCell(2).setCellValue('Type')
+counter++
+for (paymentMode in paymentModes) {
+    def code = paymentMode.code
+    def eProducts = paymentMode.eligibleProducts
+    def rProducts = paymentMode.restrictProducts
+
+    for (eProd in eProducts) {
+        HSSFRow item = sheet.createRow(counter);
+        item.createCell(0).setCellValue(code)
+        item.createCell(1).setCellValue(eProd)
+        item.createCell(2).setCellValue('Eligible Product')
+        counter++
+    }
+    for (rProd in rProducts) {
+        HSSFRow item = sheet.createRow(counter);
+        item.createCell(0).setCellValue(code)
+        item.createCell(1).setCellValue(rProd)
+        item.createCell(2).setCellValue('Restricted Product')
+        counter++
+    }
+}
+
+
+
+for (j = 0; j < workbook.getNumberOfSheets(); j++) {
+    sheet = workbook.getSheetAt(j)
+    for (i = 0; i < 8; i++) {
+        sheet.autoSizeColumn(i)
+    }
+}
+
+
+
+fileOut = new FileOutputStream(excelFile)
+workbook.write(fileOut)
+fileOut.close()
+workbook.close()
+
+
+
+EmailAttachment attachment = new EmailAttachment()
+attachment.setPath(excelFile)
+attachment.setDisposition(EmailAttachment.ATTACHMENT)
+attachment.setDescription(excelFile)
+attachment.setName(excelFile)
+
+
+
+if (counter > 0) {
+    email.attach(attachment)
+    email.msg = sb
+    email.send()
+}"; true

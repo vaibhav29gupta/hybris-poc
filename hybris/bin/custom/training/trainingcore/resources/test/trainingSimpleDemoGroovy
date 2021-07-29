@@ -24,3 +24,9 @@ def findProductWithoutcategories() {
 	}
 
 }
+//////////////////////////////////////////////////////////////////////////
+
+// printing all values in customerModel
+
+result= spring.getBean("flexibleSearchService").search("select {pk} from {customer}")
+println result.properties.each {println "$it.key -> $it.value"}

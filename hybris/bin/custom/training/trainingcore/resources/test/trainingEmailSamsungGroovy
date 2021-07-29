@@ -1,0 +1,191 @@
+
+
+import org.apache.commons.collections.CollectionUtils;
+import com.samsung.toko.facades.quota.TokoQuotaFacade;
+import com.samsung.toko.multistore.core.cart.services.TokoUserPurchaseQuotaService;
+import com.samsung.toko.multistore.core.enums.TokoQuotaType;
+import org.apache.commons.lang.BooleanUtils;
+import com.samsung.toko.config.impl.TokoStoreConfigService;
+import com.samsung.toko.facades.QuotaEntryData;
+import java.util.ArrayList;
+import org.apache.commons.collections.MapUtils;
+import com.samsung.toko.multistore.core.cart.dto.PurchaseValueDTO;
+import com.samsung.toko.multistore.core.cart.daos.TokoMultiStoreCartPurchaseLimitDao;
+import de.hybris.platform.util.mail.MailUtils
+import org.apache.commons.mail.*
+import org.apache.poi.hssf.usermodel.HSSFSheet
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.hssf.usermodel.HSSFRow
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+
+
+// Email
+email = MailUtils.getPreConfiguredEmail()
+email.setCharset("utf-8");
+email.setFrom("customerservice@shopmail.samsung.com", "Customer Services Team")
+email.addTo('wc.loo@samsung.com')
+//email.addTo('sheila.mae.c.abriol@accenture.com')
+email.subject = 'EPP User Quotas - Weekly Report'
+
+// Message
+StringBuffer sb = new StringBuffer()
+sb.append("Hi All,\n\n")
+sb.append("Please find attached EPP User Quotas - Weekly Report.\n\n")
+sb.append("Regards,\nSamsung Support")
+
+// Excel
+excelFile = "my_weekly_epp_quota_report.xls"
+counter = 0
+HSSFWorkbook workbook = new HSSFWorkbook()
+HSSFSheet sheet = workbook.createSheet("Sheet1")
+HSSFRow header = sheet.createRow(counter);
+
+header.createCell(0).setCellValue("Site")
+header.createCell(1).setCellValue("User")
+header.createCell(2).setCellValue("Category Quota")
+header.createCell(3).setCellValue("Quantity")
+header.createCell(4).setCellValue("Remaining")
+
+tokoUserQuotaService = spring.getBean("tokoUserQuotaService")
+quotaFacade = spring.getBean("quotaFacade")
+catalogVersionService = spring.getBean("catalogVersionService")
+cmsSiteService=spring.getBean("cmsSiteService")
+
+fss = spring.getBean("flexibleSearchService")
+multiStoreLinks = fss.search("SELECT {​​​​​​​pk}​​​​​​​ FROM {​​​​​​​usertomultistorelink AS link JOIN tokomultistore AS multi ON {​​​​​​​link:tokomultistore}​​​​​​​ = {​​​​​​​multi:pk}​​​​​​​ " +
+                             "JOIN tokochannel AS tc ON {​​​​​​​tc:pk}​​​​​​​ = {​​​​​​​multi:tokochannel}​​​​​​​ JOIN tokocompany AS tcy ON {​​​​​​​tcy:pk}​​​​​​​ = {​​​​​​​tc:tokocompany}​​​​​​​ " +
+                             "JOIN country AS c ON {​​​​​​​c:pk}​​​​​​​ = {​​​​​​​tcy:country}​​​​​​​}​​​​​​​ WHERE {​​​​​​​link:expirationdate}​​​​​​​ >  current_timestamp " +
+                             "AND {​​​​​​​link:user}​​​​​​​ is not null AND {​​​​​​​c:isocode}​​​​​​​ = 'MY'").result
+
+
+
+for (link in multiStoreLinks) {​​​​​​​
+
+
+
+try{​​​​​​​
+        if (link.user.uid) {​​​​​​​
+
+        baseSite = baseSiteService.getBaseSiteForUID(link.tokoMultiStore.name)
+        (cmsSiteService).setCurrentSite(baseSite);
+        (cmsSiteService).setCurrentCatalogVersion(catalogVersionService.getCatalogVersion(link.tokoMultiStore.cmsSite.defaultCatalog.id, link.tokoMultiStore.cmsSite.defaultCatalog.version));
+
+        Map<TokoQuotaType, Object> quotaMap = null;
+
+        quotaMap = quotaFacade.userQuotaFormatedPrice(tokoUserQuotaService.getAllQuotas(link.user));
+
+        if (quotaMap) {​​​​​​​
+
+            //EPP
+            out.println("EPP SITE " + link.tokoMultiStore.name)
+
+            //USER
+            out.println("USER " + link.user.uid)
+
+
+            //CATEGORY QUOTA
+            StringBuilder categoryQuotasb = new StringBuilder()
+            for (categoryQuota in quotaMap.get(TokoQuotaType.CATEGORY)) {​​​​​​​
+
+                def quotaValue = categoryQuota.formatedTotalQuota != null ? categoryQuota.formatedTotalQuota : '-'
+                def remValue = categoryQuota.formatedRemainingQuota != null && categoryQuota.formatedRemainingQuota != ' ' ? categoryQuota.formatedRemainingQuota : '-'
+                def quotaQty = categoryQuota.totalQty != null ? categoryQuota.totalQty : '-'
+                def remQty = categoryQuota.remainingQty != null && categoryQuota.remainingQty != ' ' ? categoryQuota.remainingQty : '-'
+
+
+                  counter++
+
+                if (counter==65536) {​​​​​​​
+                        sheet = workbook.createSheet("Sheet2")
+                        counter=1
+                        HSSFRow item = sheet.createRow(counter)
+                          item.createCell(0).setCellValue(link.tokoMultiStore.name)
+                        item.createCell(1).setCellValue(link.user.uid)
+                        item.createCell(2).setCellValue(categoryQuota.categoryCode)
+                        item.createCell(3).setCellValue(quotaQty)
+                        item.createCell(4).setCellValue(remQty)
+                }​​​​​​​
+
+
+
+                  HSSFRow item = sheet.createRow(counter)
+                  item.createCell(0).setCellValue(link.tokoMultiStore.name)
+                item.createCell(1).setCellValue(link.user.uid)
+                item.createCell(2).setCellValue(categoryQuota.categoryCode)
+                item.createCell(3).setCellValue(quotaQty)
+                item.createCell(4).setCellValue(remQty)
+
+                out.println(categoryQuota.categoryCode + " --> QUOTA (VALUE):" + quotaValue + " REMAINING (VALUE):" + remValue + " QUANTITY (QTY):" + quotaQty + " REMAINING (QTY):" + remQty)
+
+            }​​​​​​​
+
+        }​​​​​​​
+    }​​​​​​​
+}​​​​​​​catch(IllegalArgumentException ie){​​​​​​​
+    out.println("user" + link.user.uid)
+    out.println(ie)
+}​​​​​​​catch(ArithmeticException ae){​​​​​​​
+    out.println("user" + link.user.uid)
+    out.println(ae)
+}​​​​​​​
+
+}​​​​​​​
+
+
+
+for (j = 0; j < workbook.getNumberOfSheets(); j++) {​​​​​​​
+    sheet = workbook.getSheetAt(j)
+    for (i = 0; i < 8; i++) {​​​​​​​
+        sheet.autoSizeColumn(i)
+    }​​​​​​​
+}​​​​​​​
+
+fileOut = new FileOutputStream(excelFile)
+workbook.write(fileOut)
+fileOut.close()
+workbook.close()
+
+
+zip = "my_weekly_epp_quota_report.zip"
+FileOutputStream fos = new FileOutputStream(zip)
+ZipOutputStream zos = new ZipOutputStream(fos)
+byte[] buf = new byte[1024]
+ze = new ZipEntry(excelFile)
+zos.putNextEntry(ze)
+FileInputStream inputStream = new FileInputStream(excelFile)
+
+
+int len;
+while ((len = inputStream.read(buf)) > 0) {​​​​​​​
+    zos.write(buf, 0, len)
+}​​​​​​​
+
+
+inputStream.close()
+zos.close()
+fos.close()
+
+
+EmailAttachment attachment = new EmailAttachment()
+attachment.setPath(zip)
+attachment.setDisposition(EmailAttachment.ATTACHMENT)
+attachment.setDescription(zip)
+attachment.setName(zip)
+
+email.attach(attachment)
+email.msg = sb
+email.send()
+
+out.println("Email Sent!")
+
+
+
+
+
+
+
+
+
+
