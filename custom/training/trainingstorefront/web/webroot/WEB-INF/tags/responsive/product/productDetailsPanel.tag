@@ -13,6 +13,16 @@ hi
 	</ycommerce:testId>
 	<product:productReviewSummary product="${product}" showLinks="true"/>
 </div>
+
+
+<div class="product-details page-title">
+<div class="productDetailsInfoSlot">
+    <cms:pageSlot position="productDetailsInfoSlot" var="feature">
+        <cms:component component="${feature}"/>
+    </cms:pageSlot>
+ </div>
+</div>
+
 <div class="row">
 	<div class="col-xs-10 col-xs-push-1 col-sm-6 col-sm-push-0 col-lg-4">
 		<product:productImagePanel galleryImages="${galleryImages}" />
