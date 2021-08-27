@@ -521,6 +521,28 @@
 	
 	<bean id="helloWorldJob" class="com.hybris.training.core.job.HelloWorldJob" parent="abstractJobPerformable">	
 	</bean>
+	
+	<bean id="productListJobPerformable" class="com.hybris.training.core.job.ProductListJobPerformable" parent="abstractJobPerformable">
+	</bean>
+	
+	<bean id="trainingCartRemovalJob" class="com.hybris.training.core.job.TrainingCartRemovalJob" parent="abstractJobPerformable">
+	
+	</bean>
+	
+	<alias name="trainingProductDao" alias="productDao"/>
+	<bean id="trainingProductDao" class="com.hybris.training.core.suggestion.dao.impl.ProductListResultDaoImpl" parent="defaultProductDao">
+	</bean>
+
+	<alias name="trainingProductStoreDetailsDao" alias="productStoreDetailsDao"/>
+	<bean id="trainingProductStoreDetailsDao" class="com.hybris.training.core.daoImpl.TrainingProductStoreDetailsDaoImpl" >
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
+
+	<bean id="trainingProductDetailsService" class="com.hybris.training.core.ServicesImpl.TrainingProductDetailsServiceImpl"/>
+	
+	<alias name="trainingOldCart" alias="trainingOldCart"/>
+	<bean id="trainingOldCart" class="com.hybris.training.core.suggestion.dao.impl.TrainingFindOldCartDaoImpl">
+	</bean>
 
 	<import resource="/trainingcore/processes/quote/quote-buyer-process-spring.xml"/>
 	<import resource="/trainingcore/processes/quote/quote-salesrep-process-spring.xml"/>
@@ -564,8 +586,55 @@
 	<bean id="trainingRuleSearchedWordAddScoreAction" class="com.hybris.training.core.promotion.action.executable.TrainingRuleSearchedWordAddScoreAction" 
 				abstract="true">
 	</bean>
-	
-	
+
+	<bean id="netAvailableQuantityHandler" class="com.hybris.training.core.event.NetAvailableQuantityHandler">
+	</bean>
+
+	<bean id="trainingInitDefaultsInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingInitDefaultsInterceptor"/>
+
+	<bean id="trainingInitDefaultsInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingInitDefaultsInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingPrepareInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingPrepareInterceptor"/>
+
+	<bean id="trainingPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingPrepareInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingLoadInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingLoadInterceptorDemo"/>
+
+	<bean id="trainingLoadInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingLoadInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingValidateInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingValidateInterceptor"/>
+
+	<bean id="trainingValidateInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingValidateInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="trainingRemoveInterceptor" class="com.hybris.training.core.suggestion.impl.TrainingRemoveInterceptor"/>
+
+	<bean id="trainingRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor" ref="trainingRemoveInterceptor"/>
+		<property name="typeCode" value="customer"/>
+	</bean>
+
+	<bean id="demoDescriptionHandler" class="com.hybris.training.core.event.DemoDescriptionHandler">
+	</bean>
+
+	<bean id="trainingCustomCMSRestrictionEvaluator" class="com.hybris.training.core.evaluator.TrainingCustomCMSRestrictionEvaluator" >
+	</bean>
+
+	<bean id="countryOfOriginCMSRestrictionMapping" class="de.hybris.platform.cms2.servicelayer.services.evaluator.CMSRestrictionEvaluatorMapping" >
+		<property name="restrictionTypeCode" value="TrainingCountryOfOriginCMSRestriction" />
+		<property name="restrictionEvaluator" ref="trainingCustomCMSRestrictionEvaluator" />
+	</bean>
 
 	<!-- CsTicket Stagnation action -->
 	<alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>

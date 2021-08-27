@@ -3,6 +3,7 @@
  */
 package com.hybris.training.storefront.controllers.pages;
 
+import com.hybris.training.facades.countryOrigin.TrainingCountryOriginProductFacade;
 import de.hybris.platform.acceleratorfacades.futurestock.FutureStockFacade;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.ProductBreadcrumbBuilder;
@@ -32,6 +33,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.ProductService;
 import de.hybris.platform.servicelayer.dto.converter.Converter;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
+import de.hybris.platform.servicelayer.session.SessionService;
 import de.hybris.platform.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -117,7 +119,11 @@ public class ProductPageController extends AbstractPageController
 	@Resource(name = "samsungProductFacade")
 	private SamsungProductFacade samsungProductFacade;
 
-	private Converter<SamsungProductInfoModel, ProductData> samsungInfoConverter;
+	@Resource(name="sessionService")
+	private SessionService sessionService;
+
+	@Resource(name="trainingCountryOriginProductFacade")
+	private TrainingCountryOriginProductFacade trainingCountryOriginProductFacade;
 
 	@RequestMapping(value = PRODUCT_CODE_PATH_VARIABLE_PATTERN, method = RequestMethod.GET)
 	public String productDetail(@PathVariable("productCode") final String encodedProductCode, final Model model,
@@ -129,6 +135,12 @@ public class ProductPageController extends AbstractPageController
 				ProductOption.VARIANT_MATRIX_MEDIA);
 
 		final ProductData productData = productFacade.getProductForCodeAndOptions(productCode, extraOptions);
+
+		//sessionService.setAttribute("countryOfOrigin", productData.getCountryOfOrigin());
+		final ProductData countryProductData= trainingCountryOriginProductFacade.getCountryOriginProductDetails(productCode);
+		sessionService.setAttribute("countryOfOrigin",countryProductData.getCountryOfOrigin());
+
+		LOG.info("Dynamic attribute value is " + productData.getNetAvailableQuantity());
 
 		final String redirection = checkRequestUrl(request, response, productDataUrlResolver.resolve(productData));
 		if (StringUtils.isNotEmpty(redirection))
@@ -533,24 +545,4 @@ public class ProductPageController extends AbstractPageController
 		final ProductModel productModel = productService.getProductForCode(productCode);
 		return cmsPageService.getPageForProduct(productModel, getCmsPreviewService().getPagePreviewCriteria());
 	}
-
-	/**
-	 * @return the samsungInfoConverter
-	 */
-	public Converter<SamsungProductInfoModel, ProductData> getSamsungInfoConverter()
-	{
-		return samsungInfoConverter;
-	}
-
-	/**
-	 * @param samsungInfoConverter
-	 *           the samsungInfoConverter to set
-	 */
-	public void setSamsungInfoConverter(final Converter<SamsungProductInfoModel, ProductData> samsungInfoConverter)
-	{
-		this.samsungInfoConverter = samsungInfoConverter;
-	}
-
-
-
 }

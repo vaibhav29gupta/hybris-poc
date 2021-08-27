@@ -210,4 +210,65 @@
 		parent="variantCommerceSearchResultProductPopulator" >	
 	</bean>
 		
+	
+	<bean id="trainingProductCustomAttributesPopulator"
+		  class="com.hybris.training.facades.populators.TrainingProductCustomAttributesPopulator"
+		  parent="productPopulator">
+	</bean>
+
+	<alias name="defaultProductConverter" alias="productConverter"/>
+	<bean id="defaultProductConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+		<property name="populators">
+			<list>
+				<ref bean="trainingProductCustomAttributesPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+		<bean id="trainingProductStoreDetailsFacade" class="com.hybris.training.facades.storesImpl.TrainingProductStoreDetailsFacadeImpl" >
+		<property name="productDetailsService" ref="trainingProductDetailsService"/>
+		<property name="productStoreDetailsConverter" ref="productStoreDetails"/>
+
+	</bean>
+
+	<bean id="trainingProductStoreDetailsPopulator"
+		  class="com.hybris.training.facades.populators.TrainingProductStoreDetailsPopulator">
+	</bean>
+
+	<alias name="defaultProductStoreDetailsConverter" alias="productStoreDetails"/>
+	<bean id="defaultProductStoreDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.TrainingProductDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="trainingProductStoreDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="trainingCountryOriginProductFacade" class="com.hybris.training.facades.countryOriginImpl.TrainingCountryOriginProductFacadeImpl">
+		<property name="productService" ref="productService"/>
+		<property name="productCountryOriginDetailsConverter" ref="countryCMSRestrictions"/>
+	</bean>
+
+	<bean id="trainingCountryCMSRestrictionPopulator"
+		  class="com.hybris.training.facades.populators.TrainingCountryCMSRestrictionPopulator">
+	</bean>
+
+	<alias name="defaultCountryCMSRestrictionsConverter" alias="countryCMSRestrictions"/>
+	<bean id="defaultCountryCMSRestrictionsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+		<property name="populators">
+			<list>
+				<ref bean="trainingCountryCMSRestrictionPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<!--<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="trainingCountryCMSRestrictionPopulator"/>
+	</bean>-->
+
 </beans>

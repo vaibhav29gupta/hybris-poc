@@ -1,203 +1,279 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
- Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
--->
-<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+<!-- Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. -->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="items.xsd">
 
-    <collectiontypes>
-        <collectiontype code="GenderList" elementtype="Gender" autocreate="true" generate="true" type="list"/>
-        <collectiontype code="SwatchColorSet" elementtype="SwatchColorEnum" autocreate="true" generate="true"
-                        type="set"/>
-        <collectiontype elementtype="CMSLinkComponent" code="CustomOfferLinksList" autocreate="true" generate="true" type="list"/>                
-    </collectiontypes>
+	<collectiontypes>
+		<collectiontype code="GenderList" elementtype="Gender"
+			autocreate="true" generate="true" type="list" />
+		<collectiontype code="SwatchColorSet"
+			elementtype="SwatchColorEnum" autocreate="true" generate="true"
+			type="set" />
+		<collectiontype elementtype="CMSLinkComponent"
+			code="CustomOfferLinksList" autocreate="true" generate="true"
+			type="list" />
 
-    <enumtypes>
-        <enumtype generate="true" code="SwatchColorEnum" autocreate="true" dynamic="true">
-            <value code="BLACK"/>
-            <value code="BLUE"/>
-            <value code="BROWN"/>
-            <value code="GREEN"/>
-            <value code="GREY"/>
-            <value code="ORANGE"/>
-            <value code="PINK"/>
-            <value code="PURPLE"/>
-            <value code="RED"/>
-            <value code="SILVER"/>
-            <value code="WHITE"/>
-            <value code="YELLOW"/>
-        </enumtype>
-    </enumtypes>
+		<collectiontype code="countryList" elementtype="java.lang.String" generate="true" autocreate="true"
+						type="set"/>
+	</collectiontypes>
 
-    <itemtypes>
+	<enumtypes>
+		<enumtype generate="true" code="SwatchColorEnum"
+			autocreate="true" dynamic="true">
+			<value code="BLACK" />
+			<value code="BLUE" />
+			<value code="BROWN" />
+			<value code="GREEN" />
+			<value code="GREY" />
+			<value code="ORANGE" />
+			<value code="PINK" />
+			<value code="PURPLE" />
+			<value code="RED" />
+			<value code="SILVER" />
+			<value code="WHITE" />
+			<value code="YELLOW" />
+		</enumtype>
+	</enumtypes>
 
-        <!-- Add your item definitions here -->
+	<itemtypes>
+
+		<!-- Add your item definitions here -->
 
 
-        <!-- TypeGroups are for structure of this file only -->
+		<!-- TypeGroups are for structure of this file only -->
 
-        <typegroup name="Apparel">
-            <itemtype code="ApparelProduct" extends="Product"
-                      autocreate="true" generate="true"
-                      jaloclass="com.hybris.training.core.jalo.ApparelProduct">
-                <description>Base apparel product extension that contains additional attributes.</description>
-                <attributes>
-                    <attribute qualifier="genders" type="GenderList">
-                        <description>List of genders that the ApparelProduct is designed for</description>
-                        <modifiers/>
-                        <persistence type="property"/>
-                    </attribute>
-                </attributes>
-            </itemtype>
-            
-            <itemtype code="SamsungProductInfo"
-				extends="Product" autocreate="true" generate="true"
-							jaloclass="com.hybris.training.core.jalo.SamsungProductInfo">
-			<attributes>
-				<attribute type="java.lang.String" qualifier="productColor">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-			</attributes>
+		<typegroup name="Apparel">
+			<itemtype code="ApparelProduct" extends="Product"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.ApparelProduct">
+				<description>Base apparel product extension that contains additional attributes.</description>
+				<attributes>
+					<attribute qualifier="genders" type="GenderList">
+						<description>List of genders that the ApparelProduct is designed for</description>
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="SamsungProductInfo" extends="Product"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.SamsungProductInfo">
+				<attributes>
+					<attribute type="java.lang.String"
+						qualifier="productColor">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
 
 			</itemtype>
 
-            <itemtype code="ApparelStyleVariantProduct" extends="VariantProduct"
-                      autocreate="true" generate="true"
-                      jaloclass="com.hybris.training.core.jalo.ApparelStyleVariantProduct">
-                <description>Apparel style variant type that contains additional attribute describing variant style.
+			<itemtype code="ApparelStyleVariantProduct"
+				extends="VariantProduct" autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.ApparelStyleVariantProduct">
+				<description>Apparel style variant type that contains additional attribute describing variant style.
                 </description>
-                <attributes>
-                    <attribute qualifier="style" type="localized:java.lang.String"
-                               metatype="VariantAttributeDescriptor">
-                        <description>Color/Pattern of the product.</description>
-                        <modifiers/>
-                        <persistence type="property"/>
-                    </attribute>
+				<attributes>
+					<attribute qualifier="style"
+						type="localized:java.lang.String"
+						metatype="VariantAttributeDescriptor">
+						<description>Color/Pattern of the product.</description>
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
 
-                    <attribute qualifier="swatchColors" type="SwatchColorSet">
-                        <description>A normalized color mapping to a standardized front-end navigable name.
+					<attribute qualifier="swatchColors" type="SwatchColorSet">
+						<description>A normalized color mapping to a standardized front-end navigable name.
                         </description>
-                        <modifiers/>
-                        <persistence type="property"/>
-                    </attribute>
-                </attributes>
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
 
-            </itemtype>
+			</itemtype>
 
-            <itemtype code="ApparelSizeVariantProduct" extends="ApparelStyleVariantProduct"
-                      autocreate="true" generate="true"
-                      jaloclass="com.hybris.training.core.jalo.ApparelSizeVariantProduct">
-                <description>Apparel size variant type that contains additional attribute describing variant size.
+			<itemtype code="ApparelSizeVariantProduct"
+				extends="ApparelStyleVariantProduct" autocreate="true"
+				generate="true"
+				jaloclass="com.hybris.training.core.jalo.ApparelSizeVariantProduct">
+				<description>Apparel size variant type that contains additional attribute describing variant size.
                 </description>
-                <attributes>
-                    <attribute qualifier="size" type="localized:java.lang.String"
-                               metatype="VariantAttributeDescriptor">
-                        <description>Size of the product.</description>
-                        <modifiers/>
-                        <persistence type="property"/>
-                    </attribute>
-                </attributes>
-            </itemtype>
-        </typegroup>
+				<attributes>
+					<attribute qualifier="size"
+						type="localized:java.lang.String"
+						metatype="VariantAttributeDescriptor">
+						<description>Size of the product.</description>
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
 
-        <typegroup name="Electronics">
-            <itemtype code="ElectronicsColorVariantProduct" extends="VariantProduct"
-                      autocreate="true" generate="true"
-                      jaloclass="com.hybris.training.core.jalo.ElectronicsColorVariantProduct">
-                <description>Electronics color variant type that contains additional attribute describing variant color.
+		<typegroup name="Electronics">
+			<itemtype code="ElectronicsColorVariantProduct"
+				extends="VariantProduct" autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.ElectronicsColorVariantProduct">
+				<description>Electronics color variant type that contains additional attribute describing variant color.
                 </description>
-                <attributes>
-                    <attribute qualifier="color" type="localized:java.lang.String"
-                               metatype="VariantAttributeDescriptor">
-                        <description>Color of the product.</description>
-                        <modifiers/>
-                        <persistence type="property"/>
-                    </attribute>
-                </attributes>
-            </itemtype>
-        </typegroup>
-        
-        <typegroup name="Email">
-        	<itemtype code="HelloWorldEmailProcess" extends="StoreFrontCustomerProcess" autocreate="true" generate="true" jaloclass="com.hybris.training.core.jalo.HelloWorldEmailProcess">
-        		<description> This is the Hello World Email. 
+				<attributes>
+					<attribute qualifier="color"
+						type="localized:java.lang.String"
+						metatype="VariantAttributeDescriptor">
+						<description>Color of the product.</description>
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="Product" autocreate="false" generate="false">
+				<description> This is a new rquirement for Dynamic attribute Handler</description>
+				<attributes>
+					<attribute qualifier="availableQuantity"
+						type="java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="reservedQuantity"
+						type="java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="netAvailableQuantity"
+						type="java.lang.String">
+						<modifiers read="true" write="false" />
+						<persistence type="dynamic"
+							attributeHandler="netAvailableQuantityHandler" />
+					</attribute>
+
+					<attribute qualifier="countryOfOrigin" type="java.lang.String">
+						<description> This is the country of origin attribute for CMS Restriction</description>
+						<modifiers/>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+
+			</itemtype>
+
+
+		</typegroup>
+
+		<typegroup name="Email">
+			<itemtype code="HelloWorldEmailProcess"
+				extends="StoreFrontCustomerProcess" autocreate="true"
+				generate="true"
+				jaloclass="com.hybris.training.core.jalo.HelloWorldEmailProcess">
+				<description> This is the Hello World Email. 
         		</description>
-        		<attributes>
-        			<attribute qualifier="cart" type="AbstractOrder">
-        				<modifiers/>
-        				<persistence type="property"/>
-        			</attribute>
-        			<!-- <attribute qualifier="lastName" type="java.lang.String">
-        				<modifiers/>
-        				<persistence type="property"/>
-        			</attribute> -->
-        		</attributes>
-        	</itemtype>
-        
-        </typegroup>
-        
-        <typegroup>
-        <itemtype code="helloWorldCronJob" extends="CronJob" jaloclass="com.hybris.training.core.jalo.HelloWorldCronJob">
+				<attributes>
+					<attribute qualifier="cart" type="AbstractOrder">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<!-- <attribute qualifier="lastName" type="java.lang.String"> <modifiers/> 
+						<persistence type="property"/> </attribute> -->
+				</attributes>
+			</itemtype>
+
+		</typegroup>
+
+		<typegroup>
+			<itemtype code="HelloWorldCronJob" extends="CronJob"
+				jaloclass="com.hybris.training.core.jalo.HelloWorldCronJob">
+				<attributes>
+					<attribute qualifier="firstName" type="java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+        <itemtype code="TrainingOldCartRemovalJob" extends="CronJob">
         	<attributes>
-        		<attribute qualifier="firstName" type="java.lang.String">
+        		<attribute qualifier="hours" type="java.lang.Integer">
         			<modifiers/>
         			<persistence type="property"/>
         		</attribute>
         	</attributes>
         </itemtype>
+
 		</typegroup>
-		
+
 		<typegroup name="TrainingCMS">
-		<itemtype code="CustomOffersComponent" extends="SimpleCMSComponent" autocreate="true" generate="true" 
-		jaloclass="com.hybris.training.core.jalo.CustomOffersComponent">
-			<attributes>
-				<attribute qualifier="headerText" type="localized:java.lang.String">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="footerText" type="localized:java.lang.String">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="offerImage" type="Media">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="offerimageLink" type="CustomOfferLinksList">
-					<modifiers/>
-					<persistence type="property"/>
-					<description>List of CMS Link component	</description>
-				</attribute>
-			</attributes>	
-		</itemtype> 
-		
-		<itemtype code="TrainingVideoComponent" extends="SimpleCMSComponent" autocreate="true" generate="true" 
-				jaloclass="com.hybris.training.core.jalo.TrainingVideoComponent" abstract="false">
-			<attributes>
-				<attribute qualifier="height" type="java.lang.Integer">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="width" type="java.lang.Integer">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>	
-				<attribute qualifier="videoId" type="java.lang.String">
-					<modifiers/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute type="java.lang.Boolean" qualifier="autoPlay">
-					<modifiers optional="false"/>
-					<defaultvalue>false</defaultvalue>
-					<persistence type="property"/>
-				</attribute>
-				<attribute type="java.lang.Boolean" qualifier="showControls">
-					<modifiers optional="false"/>
-					<defaultvalue>false</defaultvalue>
-					<persistence type="property"/>
-				</attribute>
-			</attributes>	
-		</itemtype>
-		
-		</typegroup> 
-    </itemtypes>
+			<itemtype code="CustomOffersComponent"
+				extends="SimpleCMSComponent" autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.CustomOffersComponent">
+				<attributes>
+					<attribute qualifier="headerText"
+						type="localized:java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="footerText"
+						type="localized:java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="offerImage" type="Media">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="offerimageLink"
+						type="CustomOfferLinksList">
+						<modifiers />
+						<persistence type="property" />
+						<description>List of CMS Link component	</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="TrainingVideoComponent"
+				extends="SimpleCMSComponent" autocreate="true" generate="true"
+				jaloclass="com.hybris.training.core.jalo.TrainingVideoComponent"
+				abstract="false">
+				<attributes>
+					<attribute qualifier="height" type="java.lang.Integer">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="width" type="java.lang.Integer">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="videoId" type="java.lang.String">
+						<modifiers />
+						<persistence type="property" />
+					</attribute>
+					<attribute type="java.lang.Boolean" qualifier="autoPlay">
+						<modifiers optional="false" />
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+					</attribute>
+					<attribute type="java.lang.Boolean"
+						qualifier="showControls">
+						<modifiers optional="false" />
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="TrainingCountryOfOriginCMSRestriction" extends="AbstractRestriction" autocreate="true"
+					  generate="true" abstract="false" jaloclass="com.hybris.training.core.jalo.TrainingCountryOfOriginCMSRestriction">
+				<attributes>
+					<attribute qualifier="countryNames" type="countryList">
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+
+					<attribute qualifier="description" type="java.lang.String" redeclare="true">
+						<persistence type="dynamic" attributeHandler="demoDescriptionHandler"/>
+						<modifiers read="true" write="false"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+	</itemtypes>
 </items>
