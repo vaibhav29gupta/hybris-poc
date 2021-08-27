@@ -35,6 +35,8 @@
 		<property name="storeCity" type="String" />
 		<property name="storeOwnerName" type="String" />
 	</bean>
-	
-	
+
+	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+		<property name="countryOfOrigin" type="String"/>
+	</bean>	
 </beans>

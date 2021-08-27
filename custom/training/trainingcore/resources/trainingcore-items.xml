@@ -12,6 +12,8 @@
 		<collectiontype elementtype="CMSLinkComponent"
 			code="CustomOfferLinksList" autocreate="true" generate="true"
 			type="list" />
+<collectiontype code="countryList" elementtype="java.lang.String" generate="true" autocreate="true"
+						type="set"/>
 	</collectiontypes>
 
 	<enumtypes>
@@ -144,6 +146,13 @@
 						<persistence type="dynamic"
 							attributeHandler="netAvailableQuantityHandler" />
 					</attribute>
+
+
+					<attribute qualifier="countryOfOrigin" type="java.lang.String">
+						<description> This is the country of origin attribute for CMS Restriction</description>
+						<modifiers/>
+						<persistence type="property" />
+					</attribute>
 				</attributes>
 
 			</itemtype>
@@ -171,6 +180,9 @@
 		</typegroup>
 
 		<typegroup>
+
+			<itemtype code="HelloWorldCronJob" extends="CronJob"
+
 			<itemtype code="helloWorldCronJob" extends="CronJob"
 				jaloclass="com.hybris.training.core.jalo.HelloWorldCronJob">
 				<attributes>
@@ -247,6 +259,21 @@
 						<modifiers optional="false" />
 						<defaultvalue>false</defaultvalue>
 						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="TrainingCountryOfOriginCMSRestriction" extends="AbstractRestriction" autocreate="true"
+					  generate="true" abstract="false" jaloclass="com.hybris.training.core.jalo.TrainingCountryOfOriginCMSRestriction">
+				<attributes>
+					<attribute qualifier="countryNames" type="countryList">
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+
+					<attribute qualifier="description" type="java.lang.String" redeclare="true">
+						<persistence type="dynamic" attributeHandler="demoDescriptionHandler"/>
+						<modifiers read="true" write="false"/>
 					</attribute>
 				</attributes>
 			</itemtype>

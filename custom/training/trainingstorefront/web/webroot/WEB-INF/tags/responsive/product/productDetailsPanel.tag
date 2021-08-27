@@ -14,7 +14,6 @@ hi
 	<product:productReviewSummary product="${product}" showLinks="true"/>
 </div>
 
-
 <div class="product-details page-title">
 <div class="productDetailsInfoSlot">
     <cms:pageSlot position="productDetailsInfoSlot" var="feature">

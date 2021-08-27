@@ -625,7 +625,16 @@
 		<property name="typeCode" value="customer"/>
 	</bean>
 
+	<bean id="demoDescriptionHandler" class="com.hybris.training.core.event.DemoDescriptionHandler">
+	</bean>
 
+	<bean id="trainingCustomCMSRestrictionEvaluator" class="com.hybris.training.core.evaluator.TrainingCustomCMSRestrictionEvaluator" >
+	</bean>
+
+	<bean id="countryOfOriginCMSRestrictionMapping" class="de.hybris.platform.cms2.servicelayer.services.evaluator.CMSRestrictionEvaluatorMapping" >
+		<property name="restrictionTypeCode" value="TrainingCountryOfOriginCMSRestriction" />
+		<property name="restrictionEvaluator" ref="trainingCustomCMSRestrictionEvaluator" />
+	</bean>
 
 	<!-- CsTicket Stagnation action -->
 	<alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>
