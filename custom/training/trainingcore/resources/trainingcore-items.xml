@@ -12,8 +12,7 @@
 		<collectiontype elementtype="CMSLinkComponent"
 			code="CustomOfferLinksList" autocreate="true" generate="true"
 			type="list" />
-
-		<collectiontype code="countryList" elementtype="java.lang.String" generate="true" autocreate="true"
+<collectiontype code="countryList" elementtype="java.lang.String" generate="true" autocreate="true"
 						type="set"/>
 	</collectiontypes>
 
@@ -148,6 +147,7 @@
 							attributeHandler="netAvailableQuantityHandler" />
 					</attribute>
 
+
 					<attribute qualifier="countryOfOrigin" type="java.lang.String">
 						<description> This is the country of origin attribute for CMS Restriction</description>
 						<modifiers/>
@@ -180,7 +180,10 @@
 		</typegroup>
 
 		<typegroup>
+
 			<itemtype code="HelloWorldCronJob" extends="CronJob"
+
+			<itemtype code="helloWorldCronJob" extends="CronJob"
 				jaloclass="com.hybris.training.core.jalo.HelloWorldCronJob">
 				<attributes>
 					<attribute qualifier="firstName" type="java.lang.String">
@@ -274,6 +277,7 @@
 					</attribute>
 				</attributes>
 			</itemtype>
+
 		</typegroup>
 	</itemtypes>
 </items>

@@ -38,7 +38,5 @@
 
 	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
 		<property name="countryOfOrigin" type="String"/>
-	</bean>
-	
-	
+	</bean>	
 </beans>

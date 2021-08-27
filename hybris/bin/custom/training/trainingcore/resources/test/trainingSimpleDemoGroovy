@@ -1,0 +1,32 @@
+
+import de.hybris.platform.core.model.product.ProductModel
+import de.hybris.platform.catalog.model.CatalogVersionModel
+
+findProductWithoutcategories()
+
+defaultProductService = spring.getBean "defaultProductService"
+catalogVersionService = spring.getBean "catalogVersionService"
+
+def findProductWithoutcategories() {
+
+	CatalogVersionModel catalogV = catalogVersionService.getCatalogVersion("electronicsProductCatalog","Staged")
+
+	List<ProductModel> list = defaultProductService.getAllProductsForCatalogVersion(catalogV)
+
+	if(!list.isEmpty()) {
+
+		for(ProductModel product : list) {
+
+			if(product.getSupercategories().isEmpty()) {
+				println "product code is: " +product.getCode();
+			}
+		}
+	}
+
+}
+//////////////////////////////////////////////////////////////////////////
+
+// printing all values in customerModel
+
+result= spring.getBean("flexibleSearchService").search("select {pk} from {customer}")
+println result.properties.each {println "$it.key -> $it.value"}

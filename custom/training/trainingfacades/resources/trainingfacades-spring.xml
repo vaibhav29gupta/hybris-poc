@@ -271,4 +271,5 @@
 		<property name="add" ref="trainingCountryCMSRestrictionPopulator"/>
 	</bean>-->
 
+	</bean>	
 </beans>

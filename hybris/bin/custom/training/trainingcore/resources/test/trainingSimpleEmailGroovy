@@ -1,0 +1,58 @@
+import de.hybris.platform.util.mail.MailUtils
+import org.apache.commons.mail.*
+import org.apache.poi.hssf.usermodel.HSSFSheet
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.hssf.usermodel.HSSFRow
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
+import de.hybris.platform.core.model.product.ProductModel
+import de.hybris.platform.servicelayer.search.SearchResult;
+
+
+flexibleSearchService= spring.getBean "flexibleSearchService"
+
+file= File.createTempFile("hybrisTubeAttachmentFile", ".tmp")
+file.deleteOnExit()
+pw= new PrintWriter(file)
+pw.println 'Hello! This is the email via groovy script.'
+
+pw.close()
+
+counter = 0
+HSSFWorkbook workbook = new HSSFWorkbook()
+HSSFSheet sheet = workbook.createSheet('Sheet1')
+HSSFRow header = sheet.createRow(counter);
+
+
+
+header.createCell(0).setCellValue('Payment Mode')
+header.createCell(1).setCellValue('Product Code')
+header.createCell(2).setCellValue('Type')
+
+String[] pcode={"358639"};
+
+for(String p_code: pcode) {
+
+String query= "select {pk} from {product as p} where {p.code}='"+p_code+"'"
+FlexibleSearchQuery fsq= new FlexibleSearchQuery(query);
+SearchResult sresult= flexibleSearchService.search(fsq)
+
+// Email to subject, body creation
+
+
+email= MailUtils.getPreConfiguredEmail()
+email.addTo('vaibhav29gupta@gmail.com')
+email.addTo('savitaguptatv@gmail.com')
+email.subject= 'Channel subscription Request'
+email.msg='Look! This is the email via groovy script.'
+
+attachment= new EmailAttachment()
+attachment.path=file.absolutePath
+attachment.disposition= org.apache.commons.mail.EmailAttachment.ATTACHMENT
+attachment.description='hybrisTubeAttachmentFile'
+attachment.name='hybrisTubeAttachment.txt'
+
+email.attach(attachment)
+email.send()
+file.delete()
+println('email has been sent to the user!')
+}

@@ -1,0 +1,8 @@
+
+INSERT_UPDATE TrainingProductStoreDetails; storeId[unique=true]; storeName; storeCity; storeOwnerName
+                                         ;1001;groceryStore;delhi;adam
+
+
+
+INSERT_UPDATE OAuthClientDetails; clientId[unique=true] ;clientSecret;authorities;scope;resourceIds;authorizedGrantTypes
+                                ;trainingCommerce;trainingCommerce;ROLE_TRUSTED_CLIENT;basic;hybris;authorization_code,refresh_token,password,client_credentials
